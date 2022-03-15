@@ -49,9 +49,9 @@ public class UserDaoImpl implements UserDao{
         return null;
     }
 
-    public User getUserByUserName(String userName){
-        List<User> list = manager.createQuery("SELECT u FROM User u WHERE u.userName =:userName")
-                .setParameter("userName", userName).getResultList();
+    public User getUserByEmail(String email){
+        List<User> list = manager.createQuery("SELECT u FROM User u WHERE u.mail =:mail")
+                .setParameter("mail", email).getResultList();
         if(list.size() > 0){
             return list.get(0);
         }

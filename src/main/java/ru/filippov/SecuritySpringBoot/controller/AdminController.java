@@ -11,6 +11,7 @@ import ru.filippov.SecuritySpringBoot.model.User;
 import ru.filippov.SecuritySpringBoot.service.RoleService;
 import ru.filippov.SecuritySpringBoot.service.UserService;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,18 +30,17 @@ public class AdminController {
 
 
     @GetMapping()
-    public String getAllUser(Model model){
+    public String getAllUser(Model model, Principal principal){
         model.addAttribute("userList", userService.listUsers());
         model.addAttribute("user", new User());
+        model.addAttribute("currentUser", userService.getUserByEmail(principal.getName()));
         return "admin/index";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String removeUser(@PathVariable("id")long id, Model model){
         userService.deleteById(id);
-        model.addAttribute("userList", userService.listUsers());
-        model.addAttribute("user", new User());
-        return "admin/index";
+        return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
@@ -49,10 +49,10 @@ public class AdminController {
         return "admin/edit";
     }
 
-    @PatchMapping("/{id}")
-    public String editUser(@ModelAttribute("user")User user,
+    @PutMapping("/{id}")
+    public String editUser(@ModelAttribute("user") User user,
                            @PathVariable ("id")long id, @RequestParam(name = "role", required = false) String[] roles){
-        if(roles.length > 0){
+        if(roles!= null){
             Set<Role> rolesSet = new HashSet<>();
             for(String s: roles){
                 rolesSet.add(roleService.findByName(s));
@@ -69,6 +69,7 @@ public class AdminController {
         userService.update(id, user);
         return "redirect:/admin";
     }
+
 
     @PostMapping()
     public String addUser(@ModelAttribute("user")User user,

@@ -23,11 +23,8 @@ public class User implements UserDetails {
     @Column
     private String number;
 
-    @Column
-    private String mail;
-
     @Column(unique = true)
-    private String userName;
+    private String mail;
 
     @Column
     private String password;
@@ -35,28 +32,20 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Role> roles;
 
-    public User(){
+    public User() {
 
     }
 
     public User(String name, String secondName, String number, String mail,
-            String userName, String password, Set<Role> roles) {
+                String password, Set<Role> roles) {
         this.name = name;
         this.secondName = secondName;
         this.number = number;
         this.mail = mail;
-        this.userName = userName;
         this.password = password;
         this.roles = roles;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -110,6 +99,16 @@ public class User implements UserDetails {
         this.mail = mail;
     }
 
+    public String getRolesString() {
+        StringBuilder str = new StringBuilder();
+        for (Role role : roles) {
+            str.append(role.getName());
+            str.append(" ");
+        }
+        return (str.length() > 0) ? str.deleteCharAt(str.length() - 1).toString()
+                : "";
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -122,8 +121,9 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return mail;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

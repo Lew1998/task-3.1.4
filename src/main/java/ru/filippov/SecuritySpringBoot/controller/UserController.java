@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.filippov.SecuritySpringBoot.service.RoleService;
 import ru.filippov.SecuritySpringBoot.service.UserService;
 
 import java.security.Principal;
@@ -16,19 +15,16 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService,RoleService roleService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
 
     @GetMapping()
-    public String index(Model model, Principal principal){
-        model.addAttribute("user", userService.getUserByUserName(principal.getName()));
-        model.addAttribute("roles", roleService.getAllRole());
+        public String index(Model model, Principal principal){
+        model.addAttribute("user", userService.getUserByEmail(principal.getName()));
         return "user/index";
     }
 }
