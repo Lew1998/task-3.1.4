@@ -3,8 +3,6 @@ package ru.filippov.SecuritySpringBoot.model;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Set;
-
 @Entity
 @Table
 public class Role implements GrantedAuthority {
@@ -15,18 +13,15 @@ public class Role implements GrantedAuthority {
     @Column
     private String name;
 
-//    @Transient
-//    @ManyToMany(mappedBy = "roles")
-//    private Set<User> users;
 
-    public Role() {
+
+    public Role(){
 
     }
 
-    public Role(String name) {
+    public Role(String name){
         this.name = name;
     }
-
     public Role(long id, String name) {
         this(name);
         this.id = id;
@@ -36,13 +31,6 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-//    public Set<User> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(Set<User> users) {
-//        this.users = users;
-//    }
 
     public long getId() {
         return id;
@@ -59,6 +47,7 @@ public class Role implements GrantedAuthority {
     public String getNameHtml() {
         return name + " ";
     }
+
 
     @Override
     public String getAuthority() {

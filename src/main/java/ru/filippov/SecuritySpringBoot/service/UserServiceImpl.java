@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.filippov.SecuritySpringBoot.dao.UserDao;
 import ru.filippov.SecuritySpringBoot.model.User;
 
+
 import java.util.List;
 
 @Service
@@ -35,21 +36,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDao.deleteById(id);
     }
 
+    @Override
+    public User getUserByEmail(String userName){
+        return userDao.getUserByEmail(userName);
+    }
 
     @Override
-    public void update(long id, User userUpdater) {
+    public void update(User userUpdater) {
 
-        userDao.update(id, userUpdater);
+        userDao.update(userUpdater);
     }
 
     @Override
     public User getUserById(long id){
         return userDao.getUserById(id);
-    }
-
-    @Override
-    public User getUserByEmail(String userName) {
-        return userDao.getUserByEmail(userName);
     }
 
 

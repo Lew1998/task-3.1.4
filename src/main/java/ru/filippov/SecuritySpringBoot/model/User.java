@@ -21,10 +21,11 @@ public class User implements UserDetails {
     private String secondName;
 
     @Column
-    private String number;
+    private byte age;
 
     @Column(unique = true)
     private String mail;
+
 
     @Column
     private String password;
@@ -32,15 +33,14 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Role> roles;
 
-    public User() {
+    public User(){
 
     }
 
-    public User(String name, String secondName, String number, String mail,
-                String password, Set<Role> roles) {
+    public User(String name, String secondName, byte age, String mail, String password, Set<Role> roles) {
         this.name = name;
         this.secondName = secondName;
-        this.number = number;
+        this.age = age;
         this.mail = mail;
         this.password = password;
         this.roles = roles;
@@ -59,6 +59,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public byte getAge() {
+        return age;
+    }
+
+    public void setAge(byte age) {
+        this.age = age;
+    }
     public long getId() {
         return id;
     }
@@ -83,13 +90,6 @@ public class User implements UserDetails {
         this.secondName = secondName;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
 
     public String getMail() {
         return mail;
@@ -99,14 +99,15 @@ public class User implements UserDetails {
         this.mail = mail;
     }
 
-    public String getRolesString() {
+    public String getRolesString(){
         StringBuilder str = new StringBuilder();
-        for (Role role : roles) {
-            str.append(role.getName());
+        for(Role r: roles){
+            str.append(r.getName());
             str.append(" ");
         }
-        return (str.length() > 0) ? str.deleteCharAt(str.length() - 1).toString()
-                : "";
+
+        return (str.length() > 0)? str.deleteCharAt(str.length() - 1).toString()
+                                 : "";
     }
 
     @Override
@@ -123,7 +124,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return mail;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -144,4 +144,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+
+
 }

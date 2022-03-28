@@ -35,16 +35,16 @@ public class EntityLoader implements InitializingBean {
 
         User[] users = new User[]{
                 new User("Ivan"
-                        , "Ivanov",
-                        "89812930423"
+                        , "Ivanov"
+                        , (byte) 33
                         , "Ivan@mail.ru"
                         , passwordEncoder.encode("paswordqwerty"),
                         Set.of(adminRole)),
 
                 new User("Nikolay"
                         , "Nikolaev"
-                        , "89812948375"
-                            , "Nikl@mail.ru"
+                        , (byte) 22
+                        , "Nikl@mail.ru"
                         , passwordEncoder.encode("paswordqwerty")
                         , Set.of(userRole))
         };

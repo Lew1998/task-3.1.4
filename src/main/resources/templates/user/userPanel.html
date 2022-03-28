@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://thymeleaf.org"
+      xmlns:th = "http://thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
 <head>
@@ -14,14 +14,12 @@
 <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3" href="#">
-        <b th:utext="${user.getMail()}"></b>
+    <a class="navbar-brand col-md-3" href="#" >
+        <b id="userMail"></b>
         <lable>with roles:</lable>
-        <lable th:text="${user.getRolesString()}"></lable>
+        <lable id="roleUser" ></lable>
     </a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-nav">
@@ -38,6 +36,14 @@
         <nav class="col-md-2 d-none d-md-block sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">
+                                <span data-feather="home"></span>
+                                Admin <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </div>
                     <li class="nav-item">
                         <a class="nav-link active bg-primary text-white" href="#">
                             <span data-feather="file"></span>
@@ -50,46 +56,36 @@
 
         <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 bg-light">
             <div class="display-4">User information-page</div>
-            <div class="card ">
-                <div class="card-header">
-                    <div>About user</div>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content" id="myTabContent">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">name</th>
-                                <th scope="col">secondName</th>
-                                <th scope="col">number</th>
-                                <th scope="col">e-mail</th>
-                                <th scope="col">roles</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td th:utext="${user.getId()}"></td>
-                                <td th:utext="${user.getName()}"></td>
-                                <td th:utext="${user.getSecondName()}"></td>
-                                <td th:utext="${user.getNumber()}"></td>
-                                <td th:utext="${user.getMail()}"></td>
-                                <td th:utext="${user.getRolesString()}"></td>
-                            </tr>
-                            </tbody>
+                <div class="card ">
+                    <div class="card-header">
+                        <div>About user</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">name</th>
+                                    <th scope="col">secondName</th>
+                                    <th scope="col">age</th>
+                                    <th scope="col">e-mail</th>
+                                    <th scope="col">roles</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tableBody">
 
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
         </main>
     </div>
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.0.js"
         integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
@@ -103,5 +99,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="./header.js"></script>
+<script type="text/javascript" src="./userTable.js"></script>
 </body>
 </html>
