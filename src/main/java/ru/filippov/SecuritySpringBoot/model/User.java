@@ -1,13 +1,17 @@
 package ru.filippov.SecuritySpringBoot.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -30,10 +34,17 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Set<Role> roles;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+//    private Set<Role> roles;
 
-    public User(){
+    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {
 
     }
 
@@ -66,6 +77,7 @@ public class User implements UserDetails {
     public void setAge(byte age) {
         this.age = age;
     }
+
     public long getId() {
         return id;
     }
@@ -99,15 +111,15 @@ public class User implements UserDetails {
         this.mail = mail;
     }
 
-    public String getRolesString(){
+    public String getRolesString() {
         StringBuilder str = new StringBuilder();
-        for(Role r: roles){
+        for (Role r : roles) {
             str.append(r.getName());
             str.append(" ");
         }
 
-        return (str.length() > 0)? str.deleteCharAt(str.length() - 1).toString()
-                                 : "";
+        return (str.length() > 0) ? str.deleteCharAt(str.length() - 1).toString()
+                : "";
     }
 
     @Override
@@ -144,8 +156,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
 
 
 }

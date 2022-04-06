@@ -9,12 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.filippov.SecuritySpringBoot.dao.UserDao;
 import ru.filippov.SecuritySpringBoot.model.User;
 
-
 import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserByEmail(String userName){
+    public User getUserByEmail(String userName) {
         return userDao.getUserByEmail(userName);
     }
 
@@ -48,13 +47,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserById(long id){
+    public User getUserById(long id) {
         return userDao.getUserById(id);
     }
 
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByEmail(username);
-    }
 }
